@@ -22,7 +22,7 @@ const HomeScreen = ({navigation}) => {
           style={styles.buttonContainer}
           onPress={() => navigation.navigate('Details')}
         >
-          <Text style={styles.buttonText}>Tallenna ensimmäinen merkkipaalu tästä!</Text>
+          <Text style={styles.buttonText}>Tallenna merkkipaalu tästä</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

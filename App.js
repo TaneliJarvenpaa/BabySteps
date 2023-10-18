@@ -7,7 +7,7 @@ import { initializeApp } from "firebase/app";
 
 export default function App() {
   useEffect(() => {
-    // Firebase konfiguraatio
+    
     const firebaseConfig = {
       apiKey: "AIzaSyBIpEFq1yTUX2LpOhlSdj6iL3MXpXvyO4c",
     authDomain: "babysteps-a2b0d.firebaseapp.com",

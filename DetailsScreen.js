@@ -1,37 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
-import {getDatabase,ref, set } from "firebase/database";
+import {getDatabase,ref, set,push } from "firebase/database";
+
 
 
 
 
 const DetailsScreen = ({ navigation }) => {
+  const [date, setDate] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [eating, setEating] = useState('');
+  const [pissing, setPissing] = useState('');
+  const [poops,setPoops]=useState('');
   const [sleep, setSleep] = useState('');
   const [milestones, setMilestones] = useState('');
 
- 
+  useEffect(()=>{
+    const currentDate = new Date().toISOString();
+  setDate(currentDate);
+  },[]);
+  
+  const validateInputs = () => {
+    if (!weight || !height || !eating || !pissing || !poops || !sleep) {
+      alert("Kaikki kentät ovat pakollisia, paitsi merkkipaalut.");
+      return false;
+    }
+    return true;
+  };
+  
 
   const saveToDatabase = async () => {
+    if(!validateInputs()) {
+    return;
+    };
     try {
+
         const database=getDatabase();
-      await set(ref(database, 'babyDetails/'), {
+        const newItemRef=push(ref(database,'babyDetails/'));
+        const newItemKey=newItemRef.key;
+
+    await set(ref(database,`babyDetails/${newItemKey}`), {
+        date: date,
         weight: weight,
         height: height,
         eating: eating,
+        pissing: pissing,
+        poops:poops,
         sleep: sleep,
         milestones: milestones
       });
         setWeight('');
         setHeight('');
         setEating('');
+        setPissing('');
+        setPoops('');
         setSleep('');
         setMilestones('');
-      alert('Data saved successfully!');
+      alert('Pikkuihmisen tiedot pääsi perille!');
     } catch (error) {
-      console.error("Error writing document: ", error);
+      console.error("Joku meni pieleen: ", error);
     }
   };
 
@@ -55,18 +83,34 @@ const DetailsScreen = ({ navigation }) => {
         keyboardType="numeric"
         onChangeText={setHeight}
       />
-      <Text style={styles.label}>Syöminen:</Text>
+      <Text style={styles.label}>Syöminen krt/pv:</Text>
       <TextInput 
         style={styles.input}
         value={eating}
         placeholder="Syöminen"
+        keyboardType="numeric"
         onChangeText={setEating}
+      />
+      <Text style={styles.label}>Eritys krt/pv:</Text>
+      <TextInput 
+        style={styles.input}
+        value={pissing}
+        placeholder="Pisut"
+        keyboardType="numeric"
+        onChangeText={setPissing}
+      />
+       <TextInput 
+        style={styles.input}
+        value={poops}
+        placeholder="Kakit"
+        keyboardType="numeric"
+        onChangeText={setPoops}
       />
       <Text style={styles.label}>Uni:</Text>
       <TextInput 
         style={styles.input}
         value={sleep}
-        placeholder="Uni (h)"
+        placeholder="Uni yhteensä vuorokaudessa (h)"
         keyboardType="numeric"
         onChangeText={setSleep}
       />
@@ -74,7 +118,7 @@ const DetailsScreen = ({ navigation }) => {
       <TextInput 
         style={styles.input}
         value={milestones}
-        placeholder="Merkkipaalut"
+        placeholder="Tämän päivän saavutukset"
         onChangeText={setMilestones}
       />
       <Button title="Tallenna tiedot" onPress={saveToDatabase} color="#FFB6C1" />
@@ -109,4 +153,3 @@ const styles = StyleSheet.create({
 });
 
 export default DetailsScreen;
-
