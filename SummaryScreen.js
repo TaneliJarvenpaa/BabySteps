@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { getDatabase, ref, onValue } from 'firebase/database';
-import { LineChart, Grid } from 'react-native-svg-charts';
+import { LineChart, Grid, XAxis,YAxis} from 'react-native-svg-charts';
 import {Picker} from '@react-native-picker/picker';
 
 const SummaryScreen = () => {
@@ -75,19 +75,29 @@ const SummaryScreen = () => {
       </View>
       <Text style={styles.subHeaderText}>Paino</Text>
       <View style={{ height: 100, flexDirection: 'row', paddingVertical: 10 }}>
+      <YAxis
+            data={weightData}
+            contentInset={{ top: 1, bottom: 1 }}
+            svg={{ fontSize: 10, fill: 'grey' }}
+          />
         <LineChart
           style={{ flex: 1 }}
           data={weightData}
           gridMin={0}
           contentInset={{ top: 1, bottom: 1 }}
-          svg={{ stroke: 'rgb(134, 65, 244)' }}
+          svg={{ stroke: 'rgb(200, 65, 244)' }}
         >
           <Grid />
         </LineChart>
       </View>
 
-      <Text style={styles.subHeaderText}>Uni</Text>
+      <Text style={styles.subHeaderText}>Uni tunteina</Text>
       <View style={{ height: 100, flexDirection: 'row', paddingVertical: 10 }}>
+      <YAxis
+            data={sleepData}
+            contentInset={{ top: 1, bottom: 1 }}
+            svg={{ fontSize: 10, fill: 'grey' }}
+          />
         <LineChart
           style={{ flex: 1 }}
           data={sleepData}
@@ -96,11 +106,17 @@ const SummaryScreen = () => {
           svg={{ stroke: 'rgb(65, 134, 244)' }}
         >
           <Grid />
+        
         </LineChart>
       </View>
 
       <Text style={styles.subHeaderText}>Syöminen</Text>
       <View style={{ height: 100, flexDirection: 'row', paddingVertical: 10 }}>
+      <YAxis
+            data={eatingData}
+            contentInset={{ top: 1, bottom: 1 }}
+            svg={{ fontSize: 10, fill: 'grey' }}
+          />
         <LineChart
           style={{ flex: 1 }}
           data={eatingData}
