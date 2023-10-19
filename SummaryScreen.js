@@ -79,7 +79,7 @@ const SummaryScreen = () => {
           style={{ flex: 1 }}
           data={weightData}
           gridMin={0}
-          contentInset={{ top: 10, bottom: 10 }}
+          contentInset={{ top: 1, bottom: 1 }}
           svg={{ stroke: 'rgb(134, 65, 244)' }}
         >
           <Grid />
@@ -92,7 +92,7 @@ const SummaryScreen = () => {
           style={{ flex: 1 }}
           data={sleepData}
           gridMin={0}
-          contentInset={{ top: 10, bottom: 10 }}
+          contentInset={{ top: 1, bottom: 1 }}
           svg={{ stroke: 'rgb(65, 134, 244)' }}
         >
           <Grid />
@@ -105,7 +105,7 @@ const SummaryScreen = () => {
           style={{ flex: 1 }}
           data={eatingData}
           gridMin={0}
-          contentInset={{ top: 10, bottom: 10 }}
+          contentInset={{ top: 1, bottom: 1 }}
           svg={{ stroke: 'rgb(65, 244, 134)' }}
         >
           <Grid />

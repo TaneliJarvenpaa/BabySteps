@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './HomeScreen';
 import DetailsScreen from './DetailsScreen';
-import SettingsScreen from './SettingsScreen';
+import BabyNames from './BabyNames';
 import SummaryScreen from './SummaryScreen';
 import {Text} from 'react-native';
 
@@ -19,29 +19,28 @@ const TabNavigator = () => {
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Details') {
-            iconName = focused ? 'list-circle' : 'list-circle-outline';
+            iconName = focused ? 'add-circle' : 'add-circle-outline';
           } else if (route.name === 'Summary') {
-            iconName = focused ? 'document-text' : 'document-text-outline';
-          } else if (route.name === 'Settings') {
-            iconName = focused ? 'settings' : 'settings-outline';
-          }
+            iconName = focused ? 'bar-chart' : 'bar-chart-outline';
+          } else if (route.name === 'Names') {
+            iconName = focused ? 'book' : 'book-outline';
+          } 
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarLabel: ({ focused, color }) => {
           let label;
-      
+
           if (route.name === 'Home') {
             label = 'Etusivu';
           } else if (route.name === 'Details') {
             label = 'Lisää';
           } else if (route.name === 'Summary') {
             label = 'Kehitys';
-          } else if (route.name === 'Settings') {
-            label = 'Settings';
-          }
-      
-          
+          } else if (route.name === 'Names') {
+            label = 'Nimet';
+          } 
+
           return <Text style={{ color }}>{label}</Text>;
         },
         tabBarActiveTintColor: 'tomato',
@@ -64,7 +63,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Details" component={DetailsScreen} />
       <Tab.Screen name="Summary" component={SummaryScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Names" component={BabyNames} />
     </Tab.Navigator>
   );
 };
