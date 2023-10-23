@@ -16,11 +16,12 @@ const DetailsScreen = ({ navigation }) => {
   const [sleep, setSleep] = useState('');
   const [milestones, setMilestones] = useState('');
 
+  //asetetaan pvm ekalla renderöinnillä
   useEffect(()=>{
     const currentDate = new Date().toISOString();
   setDate(currentDate);
   },[]);
-  
+  //validoidaan että tilamuuttujien kentät on täydennetty
   const validateInputs = () => {
     if (!weight || !height || !eating || !pissing || !poops || !sleep) {
       alert("Kaikki kentät ovat pakollisia, paitsi merkkipaalut.");
@@ -31,11 +32,12 @@ const DetailsScreen = ({ navigation }) => {
   
 
   const saveToDatabase = async () => {
+    //tarkistetaan onko tiedot täytetty
     if(!validateInputs()) {
     return;
     };
     try {
-
+//koitetaan tallentaa tiedot tietokantaan
         const database=getDatabase();
         const newItemRef=push(ref(database,'babyDetails/'));
         const newItemKey=newItemRef.key;
@@ -50,6 +52,7 @@ const DetailsScreen = ({ navigation }) => {
         sleep: sleep,
         milestones: milestones
       });
+      //asetetaan muuttujat tyhjiksi
         setWeight('');
         setHeight('');
         setEating('');

@@ -8,20 +8,21 @@ const BabyNames = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  //haetaan nimiä API:sta sukupuolen perusteella
   const fetchNames = () => {
-    setLoading(true);
+    setLoading(true); //laitetaan latausindikaattori päälle
     fetch(`https://api.api-ninjas.com/v1/babynames?gender=${gender}`, {
       method: 'GET',
       headers: {
         'X-Api-Key': 'eV2nHzKopG+UMnxucC0JHw==nJb8LtO4C8Quc3K5',
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        setNames(data);
-        setLoading(false);
+      .then((response) => response.json()) //muunnetaan jsoniksi
+      .then((data) => { //käsitellään vastausdata
+        setNames(data); //asetetaan muuttujaan
+        setLoading(false); //latausindikaattori pois päältä
       })
-      .catch((err) => {
+      .catch((err) => { //virhekäsittely
         setError(err.message);
         setLoading(false);
       });
@@ -32,7 +33,7 @@ const BabyNames = () => {
       <Text style={styles.headerText}>Vauvan nimet</Text>
 
       <Text style={styles.label}>Valitse sukupuoli:</Text>
-      <Picker
+      <Picker //pickeri sukupuolen valintaan 
         selectedValue={gender}
         onValueChange={(itemValue) => setGender(itemValue)}
         style={styles.input}
@@ -47,7 +48,7 @@ const BabyNames = () => {
       {loading && <Text>Loading...</Text>}
       {error && <Text style={styles.label}>Error: {error}</Text>}
       
-      <FlatList
+      <FlatList //nimilistan esittäminen flatlistilla
         data={names}
         renderItem={({ item }) => <Text style={styles.label}>{item}</Text>}
         keyExtractor={(item, index) => index.toString()}

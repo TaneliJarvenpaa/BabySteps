@@ -7,15 +7,17 @@ import BabyNames from './BabyNames';
 import SummaryScreen from './SummaryScreen';
 import {Text} from 'react-native';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();//luodaan välilehtinavigaattori
 
 const TabNavigator = () => {
   return (
+    
     <Tab.Navigator
+    //määritellään yleiset asetukset kaikille sivuille
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-
+          //määritellään routen mukaan ikonit 
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Details') {
@@ -30,7 +32,7 @@ const TabNavigator = () => {
         },
         tabBarLabel: ({ focused, color }) => {
           let label;
-
+          //määritellään routen mukaan label tekstit
           if (route.name === 'Home') {
             label = 'Etusivu';
           } else if (route.name === 'Details') {
@@ -59,8 +61,8 @@ const TabNavigator = () => {
           alignItems: 'center',
         },
       })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
+    > 
+      <Tab.Screen name="Home" component={HomeScreen} /> 
       <Tab.Screen name="Details" component={DetailsScreen} />
       <Tab.Screen name="Summary" component={SummaryScreen} />
       <Tab.Screen name="Names" component={BabyNames} />

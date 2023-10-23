@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { getDatabase, ref, onValue } from 'firebase/database';
-import { LineChart, Grid, XAxis,YAxis} from 'react-native-svg-charts';
+import { LineChart, Grid,YAxis} from 'react-native-svg-charts';
 import {Picker} from '@react-native-picker/picker';
 
 const SummaryScreen = () => {
-  const [babyData, setBabyData] = useState([]);
+  const [babyData, setBabyData] = useState([]); 
+  //tallentaa vauvan tiedot firebasesta
   const [duration, setDuration] = useState('1w'); 
-  const [filteredData, setFilteredData] = useState([]);
+  //linecharttien aikavälin määrittelyyn
+  const [filteredData, setFilteredData] = useState([]); 
+//filteröity data keston perusteella
 
   useEffect(() => {
     const database = getDatabase();
     const babyDetailsRef = ref(database, 'babyDetails/');
-
+    //hakee firebasesta babydetail polusta datan
     onValue(babyDetailsRef, (snapshot) => {
       const data = snapshot.val();
       const babyDataArray = [];
+      //tallentaa haetut tiedot arrayyn avain kerrallaan
       for (let key in data) {
         babyDataArray.push(data[key]);
       }
+      //käydään läpi mapilla jokainen alkio ja muokataan stringeistä päivämäärä ja numeroita
       const formattedBabyData = babyDataArray.map((item) => ({
         ...item,
         date: new Date(item.date),
@@ -29,10 +34,12 @@ const SummaryScreen = () => {
         poops: parseFloat(item.poops),
         sleep: parseFloat(item.sleep),
       }));
+      //asetetaan lopuksi muokattu taulukko babydatan tilaksi
       setBabyData(formattedBabyData);
     });
   }, []);
 
+  //käytetään kun babydata tai pickerillä valitaan eri aikaväli mitä halutaan esittää
   useEffect(() => {
     let endDate = new Date();
     let startDate = new Date();
@@ -50,13 +57,14 @@ const SummaryScreen = () => {
       default:
         startDate.setDate(endDate.getDate() - 7);
     }
-
+//suodatetaan aikaväliin sopivat arvot 
     const filtered = babyData.filter(item => {
       return item.date >= startDate && item.date <= endDate;
     });
+    //asetetaan arvoksi
     setFilteredData(filtered);
   }, [duration, babyData]);
-
+//line chartteja varten filteröidään kaikki painot,unet ja syömiset halutulta aikaväliltä
   const weightData = filteredData.map(data => data.weight);
   const sleepData = filteredData.map(data => data.sleep);
   const eatingData = filteredData.map(data => data.eating);
@@ -65,7 +73,7 @@ const SummaryScreen = () => {
     <View style={styles.container}>
       <View style={styles.pickerContainer}>
         <Picker
-          selectedValue={duration}
+          selectedValue={duration} //aikavälin valinta 
           onValueChange={(itemValue) => setDuration(itemValue)}
         >
           <Picker.Item label="1 Viikko" value="1w" />
@@ -73,6 +81,7 @@ const SummaryScreen = () => {
           <Picker.Item label="1 Vuosi" value="1y" />
         </Picker>
       </View>
+      
       <Text style={styles.subHeaderText}>Paino</Text>
       <View style={{ height: 100, flexDirection: 'row', paddingVertical: 10 }}>
       <YAxis

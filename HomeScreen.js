@@ -3,7 +3,7 @@ import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react
 
 const HomeScreen = ({navigation}) => {
   return (
-    <ImageBackground 
+    <ImageBackground //luodaan taustakuva etusivun taustalle
       source={{ uri: 'https://cdn.pixabay.com/photo/2023/10/01/15/39/girl-8287665_1280.jpg' }}
       style={styles.backgroundImage}
     >
@@ -18,7 +18,7 @@ const HomeScreen = ({navigation}) => {
           merkkipaaluja, sekä monia muita unohtumattomia hetkiä ja muistoja. 
           Aloita tallentamalla lapsesi ensimmäinen merkkipaalu tänään!
         </Text>
-        <TouchableOpacity 
+        <TouchableOpacity //painike millä käyttäjä pääsee suoraan lisäämään tietoja
           style={styles.buttonContainer}
           onPress={() => navigation.navigate('Details')}
         >
